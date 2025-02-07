@@ -16,6 +16,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,10 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(columnDefinition = "varchar(100) DEFAULT nextval('id_seq')")
+//	@Column(columnDefinition = "varchar(100) DEFAULT nextval('id_seq')")
 	private Long id;
+	
+	@Column(nullable=false, unique=true)
 	private String username;
 	private String firstname;
 	private String lastname;
@@ -39,25 +42,19 @@ public class User {
 	private String course;
 	private String dob;
 	private String gender;
-	
-	
 	private String emailid;
 	private String password;
 	private String mobileno;
 	private String status;
 	private String profileimage;
 	private String profilesignature;
+	 
 	
-
-	
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinTable(
-			name="user_roles",
-			joinColumns=@JoinColumn(name="userid", referencedColumnName="id"),
-			inverseJoinColumns=@JoinColumn(name="roleid", referencedColumnName="id")
-			)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	
 
 }
 

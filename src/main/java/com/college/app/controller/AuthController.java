@@ -1,5 +1,8 @@
 package com.college.app.controller;
 
+import java.util.Iterator;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.college.app.model.JwtRequest;
 import com.college.app.model.JwtResponse;
+import com.college.app.model.Role;
 import com.college.app.service.JwtService;
 import com.college.app.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
@@ -48,9 +53,18 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         String token = this.helper.generateToken(userDetails);
-
+        GrantedAuthority rolename=null;
+        Stream<? extends GrantedAuthority> stream=userDetails.getAuthorities().stream();
+        Iterator<? extends GrantedAuthority> iterator=stream.iterator();
+        while(iterator.hasNext()) {
+        	rolename=iterator.next();
+        }
         JwtResponse response = JwtResponse.builder()
-                .jwttoken(token).build();
+        		
+        		.jwttoken(token)
+        		.role(rolename.getAuthority().split(",")[1].split("=")[1].split("_")[0])
+        		.username(userDetails.getUsername())
+                .build();
                 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -63,6 +77,7 @@ public class AuthController {
 
 
         } catch (BadCredentialsException e) {
+        	logger.info("Invalid Username or Password  !!");
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }
 

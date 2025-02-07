@@ -7,9 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.college.app.model.Role;
 import com.college.app.model.User;
+import com.college.app.repository.RoleRepository;
 import com.college.app.repository.UserRepository;
 import com.college.app.dto.SigninDto;
 import com.college.app.dto.SignupDto;
@@ -22,6 +24,8 @@ public class UserService {
 	@Autowired UserRepository userRepository;
 	@Autowired
     private PasswordEncoder passwordEncoder;
+	
+	@Autowired RoleRepository roleRepository;
 	
 	
 	public SigninDto getUserDetails(String username) {
@@ -58,13 +62,13 @@ public class UserService {
 		user.setUsername(signupdto.getFirstname()+"_"+signupdto.getLastname());
 		user.setStatus("Y");
 		
-		
-		Role role=new Role();
-		role.setRolename(signupdto.getRole());
+		Role role = roleRepository.findByRolename(signupdto.getRole());
+//		role.setRolename(signupdto.getRole());
 		
 		Set<Role> roleset = new HashSet<>();
 		roleset.add(role);
 		user.setRoles(roleset);
+		
 		
 		userRepository.save(user);
 		return signupdto;
@@ -89,8 +93,14 @@ public class UserService {
 		
 		return "Password updated successfully";
 	}
-	
-	
+	public void updateUserDetails(User userDetails) {
+		User user=userRepository.findByUsername(userDetails.getUsername());
+		user.setFirstname(userDetails.getFirstname());
+		user.setLastname(userDetails.getLastname());
+		user.setMobileno(userDetails.getMobileno());
+		user.setEmailid(userDetails.getEmailid());
 
+		userRepository.save(user);
+	}
 
 }

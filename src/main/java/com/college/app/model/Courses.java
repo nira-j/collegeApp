@@ -19,11 +19,16 @@ public class Courses {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	private String stream;
+	private String coursetype;
 	private String coursename;
 	private String courseid;
+	private String duration;
+	private String details;
 	private String collegename;
 	private String collegecode;
 	private String status;
+	private String subject;
+	private String degree;
 	
-
 }

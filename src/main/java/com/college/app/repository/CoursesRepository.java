@@ -9,4 +9,8 @@ import com.college.app.model.Courses;
 public interface CoursesRepository extends JpaRepository<Courses, Long>{
 	
 	public List<Courses> findAllByCollegecode(String collegecode);
+	
+	List<Courses> findByCoursetype(String courseType);
+
+	public Courses findByCourseid(String courseid);
 }

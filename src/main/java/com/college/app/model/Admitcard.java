@@ -7,28 +7,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="acedemic_exam_form")
-public class Examform {
+@Table(name="admitcard")
+public class Admitcard {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long form_no;
-	
-//	@NotBlank(message = "First name is required")
-//    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
-    private String firstname;
-	
-	private String lastname;
-	private String fathername;
+	private Long slno;
+	private String stuname;
 	private String mothername;
-	private String dob;
+	private String fathername;
 	private String gender;
 	private String category;
-	private String mobileno;
 	private String course;
 	private String courseid;
 	private String medium;
@@ -41,17 +35,9 @@ public class Examform {
 	private String studentid;
 	private String profileimage;
 	private String signatureimage;
-	private String payment_amount;
-	private String payment_status;
-	private String payment_date;
-	private String address;
-	private String state;
-	private String pin;
-	private String district;
-	private String course_type;
-	private String email_id;
 	private String session;
-	private String student_type;
-	
-}
+	private String studentType;
+	private String studentTypeCode;
+	private String status;
 
+}

@@ -24,15 +24,28 @@ public class ExamformService {
 		return coursesRepository.findAllByCollegecode(collegecode);
 	}
 	
+	public String deleteCourse(Long id) {
+		coursesRepository.deleteById(id);
+		return "Deleted Successfully !";
+	}
+	
 	public Examform saveExamform(Examform examform) {
 		return examformRepository.save(examform);
 	}
 
+	public List<Courses> getAllCourses(String coursetype) {
+		return coursesRepository.findByCoursetype(coursetype);
+	}
+	
 	public List<Courses> getAllCourses() {
 		return coursesRepository.findAll();
 	}
 	
 	public AnnualResult getResultByStudentId(Long studentid) {
 		return resultRepository.findByStudentid(studentid);
+	}
+
+	public Courses getCoursesById(String courseid) {
+		return (Courses) coursesRepository.findByCourseid(courseid);
 	}
 }

@@ -1,0 +1,8 @@
+FROM openjdk:17
+VOLUME /tmp
+ENV DB_HOST=172.17.0.2
+ENV DB_PORT=5432
+EXPOSE 9099
+ARG JAR_FILE=target/college.app.jar
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

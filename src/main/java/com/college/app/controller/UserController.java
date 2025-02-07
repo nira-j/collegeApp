@@ -10,21 +10,26 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.college.app.dto.SigninDto;
 import com.college.app.dto.SignupDto;
+import com.college.app.model.Admitcard;
 import com.college.app.model.Courses;
+import com.college.app.model.User;
 import com.college.app.service.ExamformService;
 import com.college.app.service.JwtService;
 import com.college.app.service.StorageService;
 import com.college.app.service.UserService;
+import org.springframework.http.HttpStatus;
 
 
 
@@ -55,6 +60,13 @@ public class UserController {
 	   return userService.getUserDetails(username);
 	}
 	
+	@PostMapping("/update/userdetails")
+	public String updateUserDetails(@RequestBody User userDetails) {
+		userService.updateUserDetails(userDetails);
+		return "updated";
+		
+	}
+	
 	@PostMapping("/update/mobilemail")
 	public SigninDto updateMobileEmail(@RequestParam("mobileno") String mobileno, @RequestParam("emailid") String emailid) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -64,13 +76,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/update/password")
-	public String updatePassword(@RequestParam("password") String password) {
+	public ResponseEntity<String> updatePassword(@RequestParam("password") String password) {
 		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
 		String username=authentication.getName();
-		
-		return userService.updatePassword(username, password);
+		System.out.println(username);
+		return ResponseEntity.ok(userService.updatePassword(username, password));
 	}
-	
 	
 	@PostMapping("/upload/profileimage")
 	public String handleProfileUpload(@RequestParam("profileimage") MultipartFile file) {
@@ -87,5 +98,6 @@ public class UserController {
 		storageService.store(file, username, "signature.jpg");
 		return "Uploaded Successfully";
 	}
+	
 	
 }

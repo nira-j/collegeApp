@@ -8,7 +8,7 @@ public class StorageProperties {
 	/**
 	 * Folder location for storing files
 	 */
-	private String location = "E:\\niraj\\react_project\\public\\uploadedimg";
+	private String location = "E:\\collegefrontapp\\public\\uploadedimg";
 
 	public String getLocation() {
 		return location;

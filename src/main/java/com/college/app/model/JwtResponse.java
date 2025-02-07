@@ -1,5 +1,7 @@
 package com.college.app.model;
 
+import java.util.List;
+
 import com.college.app.dto.SigninDto;
 
 import lombok.AllArgsConstructor;
@@ -17,5 +19,6 @@ public class JwtResponse {
 	
 	private String jwttoken;
 	private String username;
+	private String role;
 
 }

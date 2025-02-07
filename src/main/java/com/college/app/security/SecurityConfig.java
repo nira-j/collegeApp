@@ -17,13 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.college.app.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+	
 
     @Autowired
     private JwtAuthenticationEntryPoint point;
@@ -35,7 +36,10 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests()
+                .requestMatchers("/api/v1/adm/**").permitAll()
                 .requestMatchers("/api/v1/**").permitAll()
+                .requestMatchers("/api/v1/delete/**").hasRole("ADMIN")
+                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/get/result/{studentid}").permitAll()
                 .requestMatchers("/api/v1/user/signup").permitAll()
                 .requestMatchers("/auth/signin").permitAll()
@@ -44,6 +48,7 @@ public class SecurityConfig {
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+        
         return http.build();
     }
     

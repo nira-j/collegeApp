@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 public class SignupDto {
 	
 	private String firstname;
-	private String lastname;
 	private String emailid;
+	private String lastname;
 	private String password;
 	private String mobileno;
 	private String role;

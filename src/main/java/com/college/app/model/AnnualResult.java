@@ -42,6 +42,7 @@ public class AnnualResult {
 	private String semyr;
 	private String semyr_code;
 	private String stud_type;
+	private String stud_code;
 	private String subcode;
 	private String subject;
 	
@@ -131,5 +132,8 @@ public class AnnualResult {
 	private String result;
 	private String publish_date;
 	
+	private String centrename;
+	private String centrecode;
+	private String coursetype;
 	
 }
